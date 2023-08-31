@@ -5,7 +5,7 @@ using HarmonyLib;
 
 namespace TheGeneralsTraining.Patches.Bros.Brade
 {
-    [HarmonyPatch(typeof(Blade), "Awake")]
+   /* [HarmonyPatch(typeof(Blade), "Awake")]
     static class Blade_OldGlaive_Patch
     {
         static void Postfix(Blade __instance)
@@ -30,7 +30,7 @@ namespace TheGeneralsTraining.Patches.Bros.Brade
                 }
             }
         }
-    }
+    }*/
 
     [HarmonyPatch(typeof(Blade), "ThrowKnife")]
     static class ThrowKnife_Patch

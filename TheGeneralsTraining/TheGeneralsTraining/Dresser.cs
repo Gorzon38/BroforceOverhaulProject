@@ -25,10 +25,23 @@ namespace TheGeneralsTraining
             }
         };
 
+        public static readonly Attire broffy = new Attire("TGT_Broffy", ResourcesController.AssetsFolder)
+		{
+			wearer = "Broffy",
+			clothes = new Dictionary<string, string>
+			{
+				{
+					"sprite",
+					"broffy_anim.png"
+				}
+			}
+		};
+
         public static void Intitialize()
         {
             AddToWardrobe(rescueBro);
             AddToWardrobe(desperabro);
+			AddToWardrobe(broffy);
         }
 
         public static void AddToWardrobe(Attire attire)

@@ -98,11 +98,15 @@ namespace TheGeneralsTraining
         /// <summary>
         /// Buffy
         /// </summary>
-        public bool hollywaterMookToVillager = true;
+        public bool hollywaterMookToVillager;
         /// <summary>
         /// Buffy
         /// </summary>
-        public bool betterKick;
+        public bool betterKick = true;
+        /// <summary>
+        /// Buffy
+        /// </summary>
+        public bool explosionOnHolyWaterRevive;
 
         /// <summary>
         /// Casey Broback

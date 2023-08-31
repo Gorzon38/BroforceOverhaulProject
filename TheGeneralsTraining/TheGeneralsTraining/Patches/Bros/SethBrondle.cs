@@ -15,7 +15,7 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
         static void Postfix(BrondleFly __instance)
         {
             if(Main.CanUsePatch && Main.settings.betterTeleportation)
-                __instance.gameObject.AddComponent<SethBrondleTeleportation>();
+                __instance.gameObject.AddComponent<SethBrondle_Comp>();
         }
     }
 
@@ -30,9 +30,9 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
             {
                 if (__instance as BrondleFly && __instance.SpecialAmmo > 0)
                 {
-                    if (Main.settings.betterTeleportation && __instance.GetComponent<SethBrondleTeleportation>() != null)
+                    if (Main.settings.betterTeleportation && __instance.GetComponent<SethBrondle_Comp>() != null)
                     {
-                        __instance.GetComponent<SethBrondleTeleportation>().Teleport(Vector3.zero, null);
+                        __instance.GetComponent<SethBrondle_Comp>().Teleport(Vector3.zero, null);
                         return false;
                     }
 
@@ -155,7 +155,7 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
 
                 // - Did the Job
 
-                var comp = __instance.GetComponent<SethBrondleTeleportation>();
+                var comp = __instance.GetComponent<SethBrondle_Comp>();
                 if (comp != null)
                 {
                     comp.Teleport(vector, closestUnit);
@@ -183,7 +183,7 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
 
             try
             {
-                var comp = __instance.GetComponent<SethBrondleTeleportation>();
+                var comp = __instance.GetComponent<SethBrondle_Comp>();
                 if (comp != null && comp.isTeleporting)
                     return false;
             }
@@ -249,12 +249,12 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
         public static float hoveringSpeedMultiplier = 0.97f;
         static bool Prefix(BrondleFly __instance)
         {
-            if (Main.CantUsePatch) return true;
+            if (Main.CantUsePatch || !Main.settings.flyFaster) return true;
 
             if(__instance.GetFloat("hoverTime") > 0f && __instance.health > 0 && __instance.actionState == ActionState.Jumping)
             {
                 __instance.xI -= __instance.speed * __instance.GetFloat("t");
-                __instance.xI *= AddSpeedLeft_Patch.hoveringSpeedMultiplier;
+                __instance.xI *= hoveringSpeedMultiplier;
                 return false;
             }
             return true;
@@ -266,7 +266,7 @@ namespace TheGeneralsTraining.Patches.Bros.SethBrondle
     {
         static bool Prefix(BrondleFly __instance)
         {
-            if (Main.CantUsePatch) return true;
+            if (Main.CantUsePatch || !Main.settings.flyFaster) return true;
 
             if(__instance.GetFloat("hoverTime") > 0f && __instance.health > 0 && __instance.actionState == ActionState.Jumping)
             {

@@ -3,6 +3,7 @@ using System;
 using System.Reflection;
 using UnityEngine;
 using UnityModManagerNet;
+using RocketLib;
 
 namespace TheGeneralsTraining
 {
@@ -53,8 +54,9 @@ namespace TheGeneralsTraining
             modEntry.OnSaveGUI = OnSaveGUI;
             modEntry.OnToggle = OnToggle;
 
-            settings = Settings.Load<Settings>(modEntry);
+            modEntry.Info.DisplayName = "<color=\"cyan\">The General's Training</color>";
 
+            settings = Settings.Load<Settings>(modEntry);
             mod = modEntry;
 
             try

@@ -1,4 +1,23 @@
-﻿- v0.3.0
+﻿- v0.4.1
+Fix the velocity added on the X axis and was not removed
+Flying kick of buffy touch corpses
+Assets are still loaded when the user click on Reload inside of the dresser mod
+Fix broffy melee where she can't destroy blocks
+Fix Dirty Brory relaod on punch
+Remove FixHideInGras since it was patched
+
+- v0.4.0
+Remove color from JSON
+Change the desperabro avatar to a better one
+- BUFFY UPDATE -
+Now ride pigs
+New melee frames for when pigs are ride
+Kick make correct sound
+Kick does knockback and higher damage
+Has a flying kick when running melee and jumping melee
+Possible explosion when a bro is revived by holywater
+
+- v0.3.0
 Bro Dredd takes less time to explode it's enemies with his taser. (optional)
 Broffy kick does more damage
 Bro Heart can retrieve his sword in ammo box
@@ -16,6 +35,8 @@ FaceHugger avatar is not transparent anymore
 Desperabro have a better avatar
 Multiple pocketed special on the hud
 Seth Brondle can fly faster
+Remove Rambro UI, since RocketLib does the taunt now
+Added DresserModDependency
 
 - v0.2 :
 The changes are optional in customs campaign.

@@ -12,6 +12,7 @@ namespace TerroristC4Programs
         // Global
         public bool zombiesDanceOnFlex = true;
         public bool betterSkinlessSprite = true;
+        public bool decapitationUpdate = true;
 
         // Probability
         public Probability01 strongerTrooperProbability = new Probability01();

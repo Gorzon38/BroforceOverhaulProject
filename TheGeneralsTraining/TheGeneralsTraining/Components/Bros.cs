@@ -38,19 +38,17 @@ namespace TheGeneralsTraining.Components.Bros
         }
     }
 
-    public class ChevBrolios_Comp : MonoBehaviour
+    public class ChevBrolios_Comp : ExtendedBroComponent<ChevBrolios>
     {
         float onFireMaxTime = 0.32f;
         float onFireTime;
         FlickerFader[] flames;
-        ChevBrolios chev;
 
-        private void Awake()
+        protected override void Awake()
         {
             try
             {
                 flames = (Map.Instance.activeTheme.mook as Mook).flames;
-                chev = gameObject.GetComponent<ChevBrolios>();
             }
             catch (Exception e)
             {
@@ -67,7 +65,7 @@ namespace TheGeneralsTraining.Components.Bros
                     onFireTime -= 0.01f;
                     if (flames != null)
                     {
-                        EffectsController.CreateEffect(flames[UnityEngine.Random.Range(0, flames.Length)], chev.X, chev.Y + chev.height, chev.transform.position.z + 1f);
+                        EffectsController.CreateEffect(flames[UnityEngine.Random.Range(0, flames.Length)], bro.X, bro.Y + bro.height, bro.transform.position.z + 1f);
                     }
                 }
             }

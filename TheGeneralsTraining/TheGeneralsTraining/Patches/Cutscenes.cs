@@ -36,7 +36,7 @@ namespace TheGeneralsTraining.Patches.Cutscenes
                 var cutscene = TheGeneralsTraining.Cutscenes.GetTGTCutscene(introName);
                 if(cutscene != null)
                 {
-                    __instance.CallMethod("OnLoadComplete", introName, (object)cutscene);
+                    __instance.CallMethod("OnLoadComplete", introName, cutscene);
                     __result = true;
                     return false;
                 }

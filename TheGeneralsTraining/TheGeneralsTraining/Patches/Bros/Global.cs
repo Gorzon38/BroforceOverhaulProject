@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
 using TheGeneralsTraining.Components.Bros;
+using Rogueforce;
 
 namespace TheGeneralsTraining.Patches.Bros.Global
 {
@@ -162,27 +163,6 @@ namespace TheGeneralsTraining.Patches.Bros.Global
             {
                 Main.ExceptionLog(ex);
             }
-        }
-    }
-
-    // Fix Hide in grass
-    [HarmonyPatch(typeof(Map), "IsInSubstance")]
-    static class Map_FixHideInGrass_Patch
-    {
-        static bool Prefix(Map __instance, ref Doodad __result, float x, float y, float range)
-        {
-            if (Main.CanUsePatch)
-            {
-                for (int i = 0; i < Map.grassAndBlood.Count; i++)
-                {
-                    if (i >= 0 && Map.grassAndBlood[i] != null && Map.grassAndBlood[i].SubMergesUnit() && Mathf.Abs(Map.grassAndBlood[i].centerX - x) <= range + Map.grassAndBlood[i].width / 2f && Mathf.Abs(Map.grassAndBlood[i].centerY - y) <= range + Map.grassAndBlood[i].height / 2f)
-                    {
-                        __result = Map.grassAndBlood[i];
-                        return false;
-                    }
-                }
-            }
-            return true;
         }
     }
 
@@ -394,12 +374,20 @@ namespace TheGeneralsTraining.Patches.Bros.Global
     {
         public static float invulnerableTime = 0.7f;
         public static float panicRange = 128f;
+        public static float explosionRange = 48f;
         static void Prefix(BroBase __instance)
         {
             if (Main.CanUsePatch && Main.settings.holyWaterPanicUnits)
             {
                 Map.PanicUnits(__instance.X, __instance.Y, panicRange, 0.5f, true, true);
-                __instance.SetInvulnerable(invulnerableTime);
+            }
+            __instance.SetInvulnerable(invulnerableTime);
+            if(Main.CanUsePatch && Main.settings.explosionOnHolyWaterRevive)
+            {
+                EffectsController.CreateExplosion(__instance.X, __instance.Y, explosionRange * 0.25f, explosionRange * 0.25f, 120f, 1f, explosionRange * 1.5f, 1f, 0f, true);
+                Map.DamageDoodads(5, DamageType.Explosion, __instance.X, __instance.Y, 0f, 0f, explosionRange, __instance.playerNum, out bool flag, __instance);
+                Map.ExplodeUnits(__instance, 5, DamageType.Explosion, explosionRange * 1.3f, explosionRange, __instance.X, __instance.Y, 50f, 400f, __instance.playerNum, false, true, true);
+                MapController.DamageGround(__instance, 5, DamageType.Explosion, explosionRange, __instance.X, __instance.Y);
             }
         }
     }

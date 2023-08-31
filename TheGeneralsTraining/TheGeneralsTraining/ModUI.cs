@@ -10,7 +10,6 @@ namespace TheGeneralsTraining
         private static int TabSelected;
         private static string[] tabs;
         private static Action[] actions;
-        private static int playerNum;
         private static Vector2 _scrollPos;
 
         private static Settings Sett
@@ -38,8 +37,8 @@ namespace TheGeneralsTraining
             titleStyle.normal.textColor = Color.white;
 
 
-            tabs = new string[] { "Global", "Brade", "Brochete", "Bro Dredd", "Bro Hard", "Bro Heart", /*"Broniversal Soldier",*/ "Broffy", "Casey Broback", "Chev Brolios", "Desperabro", "Dirty Brorry", "Double Bro Seven", "Rambro", "Scorpion Bro", "Seth Brondle", "Xena" };
-            actions = new Action[] { Global, Brade, Brochete, BroDredd, BroHard, BroHeart, /*BroniversalSoldier,*/ Buffy, CaseyBroback, ChevBrolios, Desperabro, DirtyHarry, DoubleBroSeven, Rambro, ScorpionBro, SethBrondle, Xena };
+            tabs = new string[] { "Global", "Brade", "Brochete", "Bro Dredd", "Bro Hard", "Bro Heart", /*"Broniversal Soldier",*/ "Broffy", "Casey Broback", "Chev Brolios", "Desperabro", "Dirty Brorry", "Double Bro Seven", /*"Rambro",*/ "Scorpion Bro", "Seth Brondle", "Xena" };
+            actions = new Action[] { Global, Brade, Brochete, BroDredd, BroHard, BroHeart, /*BroniversalSoldier,*/ Buffy, CaseyBroback, ChevBrolios, Desperabro, DirtyHarry, DoubleBroSeven,/* Rambro,*/ ScorpionBro, SethBrondle, Xena };
         }
 
         public static void OnGUI()
@@ -126,9 +125,14 @@ namespace TheGeneralsTraining
 
         private static void Buffy()
         {
+            BeginVerticalBox("Melee");
+            Sett.betterKick = GUILayout.Toggle(Sett.betterKick, new GUIContent("Better kick", ""));
+            GUILayout.EndVertical();
+
             BeginVerticalBox("Special");
             Sett.hollywaterMookToVillager = GUILayout.Toggle(Sett.hollywaterMookToVillager, new GUIContent("Mook to villager with Holy Water", "Convert basic Mooks into villager with holy water"));
             Sett.holyWaterPanicUnits = GUILayout.Toggle(Sett.holyWaterPanicUnits, new GUIContent("Better holy water", "Panic enemies and longer invulnerability"));
+            Sett.explosionOnHolyWaterRevive = GUILayout.Toggle(Sett.explosionOnHolyWaterRevive, new GUIContent("Explosion on Holy Water revive", ""));
             GUILayout.EndVertical();
         }
 

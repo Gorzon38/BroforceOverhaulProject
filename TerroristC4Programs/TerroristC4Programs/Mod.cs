@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime;
-using System.Text;
+using UnityEngine;
 
 namespace TerroristC4Programs
 {
-    public static class Mod
+    public class Mod : MonoBehaviour
     {
         public static bool CanUsePatch
         {
@@ -40,5 +40,11 @@ namespace TerroristC4Programs
             }
         }
 
+        public static Mod instance;
+
+        void Awake()
+        {
+            instance = this;
+        }
     }
 }

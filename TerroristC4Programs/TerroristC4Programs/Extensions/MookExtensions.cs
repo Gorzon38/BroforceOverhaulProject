@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using HarmonyLib;
 using TerroristC4Programs.Components;
 using UnityEngine;
 
@@ -21,49 +21,16 @@ namespace TerroristC4Programs.Extensions
         {
             return self != null && self.gameObject.name.Contains("Treasure");
         }
-
         public static bool IsSnake(this Mook self)
         {
-            return self as AlienFaceHugger && self.As<AlienFaceHugger>().gameObject.name.Contains("Snake");
+            return self as AlienFaceHugger && self.gameObject.name.Contains("Snake");
         }
 
-        public static string GetSkinnedName(this Mook self)
+        public static bool CanBeDecapitated(this Mook mook)
         {
-            if (self.skinnedPrefab == null)
-                return string.Empty;
+            return mook.NotAs<MookDog>() && mook.NotAs<AlienMosquito>() && mook.NotAs<DolphLundrenSoldier>() && mook.NotAs<MookArmouredGuy>() && mook.NotAs<MookHellArmouredBigGuy>() &&
+                mook.NotAs<MookCaptainCutscene>() &&  mook.NotAs<MookHellBoomer>() && mook.NotAs<SatanMiniboss>() && mook.NotAs<Warlock>();
 
-            if (self as MookJetpack)
-                return nameof(MookJetpack);
-            if (self as UndeadTrooper)
-                return nameof(UndeadTrooper);
-            if (self as MookTrooper || self as MookSuicide || self as MookRiotShield || self as ScoutMook)
-                return nameof(Mook);
-
-            return string.Empty;
-        }
-        public static bool HasCustomDecapitation(this Mook mook)
-        {
-            return TextureManager.FileExist(mook.GetType().Name);
-        }
-        public static string GetDecapitationName(this Mook self)
-        {
-            string result = string.Empty;
-
-            if (self.IsScientist())
-                result = "Scientist";
-            else if (self.IsTreasure())
-                result = "MookTreasure";
-            else if (self as MookJetpack)
-                result = nameof(MookJetpack);
-            else if (self as UndeadTrooper)
-                result = nameof(UndeadTrooper);
-            else if (self as MookTrooper || self as MookSuicide || self as MookRiotShield || self as ScoutMook)
-                result = nameof(Mook);
-
-            if (self.IsStrong())
-                result += "_Strong";
-
-            return result;
         }
 
         public static void Decapitate(this Mook mook, int damage, DamageType damageType, float xI, float yI, int direction, float xHit, float yHit, MonoBehaviour damageSender)
@@ -78,12 +45,16 @@ namespace TerroristC4Programs.Extensions
             mook.CallMethod("PlayDecapitateSound");
             mook.CallMethod("DeactivateGun");
 
-
-            var tex = TextureManager.GetTexture($"{mook.GetType()}_decapitated.png");
-            if (tex == null)
-                tex = TextureManager.GetTexture($"{mook.GetDecapitationName()}_decapitated.png");
-            if (tex != null)
-                mook.SetRendererTexture(tex);
+            if (Traverse.Create(mook).Field("decapitatedMaterial").FieldExists())
+            {
+                mook.GetComponent<Renderer>().sharedMaterial = mook.GetFieldValue<Material>("decapitatedMaterial");
+            }
+            else
+            {
+                var tex = ResourcesController.GetTexture($"{Dresser.GetDecapitationFileName(mook)}.png");
+                if (tex != null)
+                    mook.SetRendererTexture(tex);
+            }
 
             if (UnityEngine.Random.value > 0f)
             {

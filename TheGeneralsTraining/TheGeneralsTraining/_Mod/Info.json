@@ -1,11 +1,10 @@
 ﻿{
   "Id": "TheGeneralsTraining",
-  "DisplayName": "<color=\"cyan\">The General's Training</color>",
+  "DisplayName": "The General's Training",
   "Author": "Gorzontrok",
-  "Version": "0.3.0",
+  "Version": "0.4.0",
   "Requirements": [ "RocketLib", "DresserMod" ],
-  //"LoadAfter": [ "RocketLib", "DresserMod" ],
   "AssemblyName": "TheGeneralsTraining.dll",
   "EntryMethod": "TheGeneralsTraining.Main.Load",
-  "Repository": "https://raw.githubusercontent.com/Gorzon38/Mods-Broforce/main/Repository.json"
+  "Repository": "https://raw.githubusercontent.com/Gorzon38/BroforceOverhaulProject/main/Repository.json"
 }

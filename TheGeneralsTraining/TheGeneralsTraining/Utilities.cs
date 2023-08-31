@@ -53,5 +53,15 @@ namespace TheGeneralsTraining
             pos = vector;
             return false;
         }
+
+        public static bool IsOnAnimal(TestVanDammeAnim character)
+        {
+            LayerMask platformLayer = character.GetFieldValue<LayerMask>("platformLayer");
+            RaycastHit raycastHit;
+            return (Physics.Raycast(new Vector3(character.X, character.Y + 5f, 0f), Vector3.down, out raycastHit, 16f, platformLayer) ||
+                Physics.Raycast(new Vector3(character.X + 4f, character.Y + 5f, 0f), Vector3.down, out raycastHit, 16f, platformLayer) ||
+                Physics.Raycast(new Vector3(character.X - 4f, character.Y + 5f, 0f), Vector3.down, out raycastHit, 16f, platformLayer)) &&
+                raycastHit.collider.GetComponentInParent<Animal>() != null;
+        }
     }
 }

@@ -41,6 +41,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\..\..\lib\BitCode.AssetManagement.dll</HintPath>
     </Reference>
+    <Reference Include="DresserMod">
+      <HintPath>E:\SteamLibrary\steamapps\common\Broforce\Mods\DresserMod\DresserMod.dll</HintPath>
+    </Reference>
     <Reference Include="RocketLib">
       <HintPath>E:\SteamLibrary\steamapps\common\Broforce\Mods\RocketLib\RocketLib.dll</HintPath>
     </Reference>
@@ -81,7 +84,8 @@
     <Compile Include="Probability01.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Settings.cs" />
-    <Compile Include="TextureManager.cs" />
+    <Compile Include="ResourcesController.cs" />
+    <Compile Include="Dresser.cs" />
   </ItemGroup>
   <ItemGroup />
   <ItemGroup>
@@ -93,6 +97,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start XCOPY /Y /R "$(TargetPath)" "$(ProjectDir)\_Mod\$(ProjectName).dll*"
-start XCOPY /Y /I /S "$(ProjectDir)_Mod\*.*" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)Mod\"</PostBuildEvent>
+start XCOPY /Y /I /S "$(ProjectDir)_Mod\*.*" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)Mod\"
+start XCOPY /Y /I /S "$(SolutionDir)\..\assets\TC4P\copy\*.*" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)Mod\assets"</PostBuildEvent>
   </PropertyGroup>
 </Project>

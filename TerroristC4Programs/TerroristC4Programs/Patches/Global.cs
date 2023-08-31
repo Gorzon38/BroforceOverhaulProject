@@ -44,13 +44,7 @@ namespace TerroristC4Programs.PatchesGlobal
         {
             if(Mod.CantUsePatch && !Mod.Sett.betterSkinlessSprite) return;
 
-            var tex = TextureManager.GetTexture($"{__instance.GetType()}_skinless.png");
-            if (tex == null)
-            {
-                string name = __instance.As<Mook>().GetSkinnedName();
-                if (name.IsNotNullOrEmpty())
-                    tex = TextureManager.GetTexture(name);
-            }
+            var tex = ResourcesController.GetTexture(Dresser.GetSkinnedFileName(__instance.As<Mook>()));
             if (tex != null)
                 skinnedInstance.GetComponent<SpriteSM>().SetTexture(tex);
         }
@@ -75,11 +69,11 @@ namespace TerroristC4Programs.PatchesGlobal
     {
         static bool Prefix(Unit __instance, int damage, DamageType damageType, float xI, float yI, int direction, float xHit, float yHit, MonoBehaviour damageSender)
         {
-            if (Mod.CantUsePatch) return true;
+            if (Mod.CantUsePatch || !Mod.Sett.decapitationUpdate) return true;
 
             var mook = __instance as Mook;
             if (mook == null) return true;
-            if (mook.As<SkinnedMook>() || mook.As<MookTrooper>() || mook.As<MookSuicide>() || mook.As<MookGrenadier>() || mook.As<MookBigGuy>() || mook.As<MookDog>()) return true;
+            if (mook.As<SkinnedMook>() || mook.As<MookTrooper>() || mook.As<MookSuicide>() || mook.As<MookGrenadier>() || mook.As<MookBigGuy>() || mook.As<MookDog>() || !mook.CanBeDecapitated()) return true;
 
             try
             {

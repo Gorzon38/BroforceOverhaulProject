@@ -2,15 +2,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using TheGeneralsTraining.Components;
 using UnityEngine;
 
 namespace TheGeneralsTraining
 {
-    public class SethBrondleTeleportation : MonoBehaviour
+    public class SethBrondle_Comp : ExtendedBroComponent<BrondleFly>
     {
         public static int bossDamage = 50;
 
-        public BrondleFly brondleFly;
         public bool isTeleporting = false;
         public float frameRate = 0.02f;
 
@@ -31,23 +31,15 @@ namespace TheGeneralsTraining
             teleportPosition = position;
             hitUnit = unit;
 
-            brondleFly.invulnerable = true;
+            bro.invulnerable = true;
             isTeleporting = true;
             frame = 0;
             goOut = false;
             CheckMaxFrame();
             CheckRow();
-            brondleFly.CallMethod("DeactivateGun");
+            bro.CallMethod("DeactivateGun");
 
             UpdateSprite();
-        }
-
-        protected virtual void Awake()
-        {
-            brondleFly = GetComponent<BrondleFly>();
-            if (brondleFly == null)
-                Destroy(this);
-
         }
 
         protected virtual void Update()
@@ -61,7 +53,7 @@ namespace TheGeneralsTraining
         protected virtual void UpdateSprite()
         {
             frame++;
-            brondleFly.SetSpriteLowerLeftPixel(frame, row);
+            bro.SetSpriteLowerLeftPixel(frame, row);
             if (frame == maxFrame)
             {
                 if (goOut)
@@ -86,58 +78,58 @@ namespace TheGeneralsTraining
 
             if (teleportPosition != Vector3.zero)
             {
-                if (Mathf.Abs(teleportPosition.x - brondleFly.X) > 16f || Mathf.Abs(teleportPosition.y - brondleFly.Y) > 16f)
+                if (Mathf.Abs(teleportPosition.x - bro.X) > 16f || Mathf.Abs(teleportPosition.y - bro.Y) > 16f)
                 {
-                    brondleFly.SpecialAmmo--;
+                    bro.SpecialAmmo--;
                 }
-                brondleFly.SetFieldValue("pressSpecialFacingDirection", 0);
-                brondleFly.SetXY(teleportPosition.x, teleportPosition.y);
-                brondleFly.SetPosition();
+                bro.SetFieldValue("pressSpecialFacingDirection", 0);
+                bro.SetXY(teleportPosition.x, teleportPosition.y);
+                bro.SetPosition();
             }
 
             if (hitUnit != null)
             {
                 if (hitUnit is SatanMiniboss)
                 {
-                    hitUnit.Damage(bossDamage, DamageType.Knock, 0f, 360f, brondleFly.Direction, brondleFly, hitUnit.X, hitUnit.Y - 2f);
+                    hitUnit.Damage(bossDamage, DamageType.Knock, 0f, 360f, bro.Direction, bro, hitUnit.X, hitUnit.Y - 2f);
                 }
                 else
                 {
-                    hitUnit.Damage(hitUnit.health, DamageType.Normal, 0f, 0f, brondleFly.Direction, brondleFly, hitUnit.X, hitUnit.Y);
+                    hitUnit.Damage(hitUnit.health, DamageType.Normal, 0f, 0f, bro.Direction, bro, hitUnit.X, hitUnit.Y);
                     hitUnit.GibNow(DamageType.Crush, 0f, 100f);
                 }
 
-                brondleFly.SetFieldValue("defaultMaterial", brondleFly.coveredInBloodMaterial);
-                brondleFly.SetFieldValue("isBloody", true);
-                brondleFly.GetComponent<Renderer>().material = brondleFly.GetFieldValue<Material>("defaultMaterial");
+                bro.SetFieldValue("defaultMaterial", bro.coveredInBloodMaterial);
+                bro.SetFieldValue("isBloody", true);
+                bro.GetComponent<Renderer>().material = bro.GetFieldValue<Material>("defaultMaterial");
             }
 
-            brondleFly.xI = 0f;
-            if (brondleFly.up)
+            bro.xI = 0f;
+            if (bro.up)
             {
-                brondleFly.SetFieldValue("jumpTime", 0f);
-                brondleFly.yI = 120f;
+                bro.SetFieldValue("jumpTime", 0f);
+                bro.yI = 120f;
             }
             else
             {
-                brondleFly.yI = 0f;
+                bro.yI = 0f;
             }
 
-            Sound.GetInstance().PlayAudioClip(brondleFly.teleportSound, brondleFly.transform.position, 0.5f, UnityEngine.Random.Range(0.8f, 1.2f));
+            Sound.GetInstance().PlayAudioClip(bro.teleportSound, bro.transform.position, 0.5f, UnityEngine.Random.Range(0.8f, 1.2f));
         }
 
         protected virtual void FinishTeleporting()
         {
             isTeleporting = false;
-            brondleFly.invulnerable = false;
-            brondleFly.CallMethod("ActivateGun");
-            brondleFly.DisConnectFaceHugger();
+            bro.invulnerable = false;
+            bro.CallMethod("ActivateGun");
+            bro.DisConnectFaceHugger();
         }
 
 
         protected virtual void CheckRow()
         {
-            if (brondleFly.IsPerformanceEnhanced || hitUnit != null)
+            if (bro.IsPerformanceEnhanced || hitUnit != null)
             {
                 row = goOut ? 10 : 9;
             }
@@ -147,7 +139,7 @@ namespace TheGeneralsTraining
 
         protected virtual void CheckMaxFrame()
         {
-            if (brondleFly.IsPerformanceEnhanced || hitUnit != null)
+            if (bro.IsPerformanceEnhanced || hitUnit != null)
             {
                 maxFrame = goOut ? 11 : 8;
             }

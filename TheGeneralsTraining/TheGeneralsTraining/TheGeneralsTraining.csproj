@@ -87,9 +87,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\Buffy_Comp.cs" />
+    <Compile Include="Components\ExtendedBroComponent.cs" />
+    <Compile Include="Patches\Mods.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Components\Bros.cs" />
-    <Compile Include="Components\SethBrondleTeleportation.cs" />
+    <Compile Include="Components\SethBrondle_Comp.cs" />
     <Compile Include="Cutscenes.cs" />
     <Compile Include="Dresser.cs" />
     <Compile Include="Mod.cs" />
@@ -146,7 +149,9 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>start XCOPY /Y /R "$(TargetPath)" "$(ProjectDir)\_Mod\$(ProjectName).dll*"
-start XCOPY /I /Y /S "$(ProjectDir)_Mod\" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)\"</PostBuildEvent>
+start XCOPY /I /Y /S "$(ProjectDir)_Mod\" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)\"
+start XCOPY /Y /I /S "$(SolutionDir)\..\assets\TGT\copy\*.*" "E:\SteamLibrary\steamapps\common\Broforce\Mods\$(ProjectName)\assets"
+</PostBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
     <PreBuildEvent>
