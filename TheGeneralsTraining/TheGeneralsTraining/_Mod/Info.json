@@ -2,7 +2,7 @@
   "Id": "TheGeneralsTraining",
   "DisplayName": "The General's Training",
   "Author": "Gorzontrok",
-  "Version": "0.4.0",
+  "Version": "0.4.1",
   "Requirements": [ "RocketLib", "DresserMod" ],
   "AssemblyName": "TheGeneralsTraining.dll",
   "EntryMethod": "TheGeneralsTraining.Main.Load",
