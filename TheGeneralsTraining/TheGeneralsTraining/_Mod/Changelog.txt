@@ -1,5 +1,5 @@
 ﻿- v0.4.1
-Fix the velocity added on the X axis and was not removed
+Broffy kick: Fix the velocity added on the X axis and was not removed
 Flying kick of buffy touch corpses
 Assets are still loaded when the user click on Reload inside of the dresser mod
 Fix broffy melee where she can't destroy blocks
