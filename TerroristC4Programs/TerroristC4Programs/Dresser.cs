@@ -24,10 +24,40 @@ namespace TerroristC4Programs
                 { "decapitatedMaterial", "MookStrong_decapitated.png" }
             }
         };
+        public static readonly Attire bruiserStrong = new Attire("TC4P_BruiserStrong", ResourcesController.AssetsFolder)
+        {
+            wearer = Wearers.BRUISER_STRONG,
+            clothes = new Dictionary<string, string>()
+            {
+                { "decapitatedMaterial", "BruiserStrong_decapitated.png" }
+            }
+        };
+        public static readonly Attire mookBazooka = new Attire("TC4P_MookBazooka", ResourcesController.AssetsFolder)
+        {
+            wearer = nameof(MookBazooka),
+            clothes = new Dictionary<string, string>()
+            {
+                { "decapitatedMaterial", "MookBazooka_decapitated.png" }
+            }
+        };
+
+        public static readonly Attire bruiserElite = new Attire("TC4P_BruiserElite", ResourcesController.AssetsFolder)
+        {
+            wearer = nameof(MookBigGuyElite),
+            clothes = new Dictionary<string, string>()
+            {
+                { "decapitatedMaterial", "MookBigGuyElite_decapitated.png" }
+            }
+        };
+
 
         public static void Intitialize()
         {
             AddToWardrobe(mookTrooper);
+            AddToWardrobe(mookStrong);
+            AddToWardrobe(bruiserStrong);
+            AddToWardrobe(mookBazooka);
+            AddToWardrobe(bruiserElite);
         }
 
         public static void AddToWardrobe(Attire attire)

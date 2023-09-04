@@ -45,6 +45,14 @@ namespace TerroristC4Programs
         void Awake()
         {
             instance = this;
+            try
+            {
+                Dresser.Intitialize();
+            }
+            catch (Exception e)
+            {
+                Main.ExceptionLog(e);
+            }
         }
     }
 }

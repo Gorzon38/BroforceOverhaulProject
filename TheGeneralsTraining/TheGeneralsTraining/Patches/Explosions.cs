@@ -101,63 +101,63 @@ namespace TheGeneralsTraining.Patches.Explosions
 
         static bool Prefix(HolyWaterExplosion __instance)
         {
-            if (Main.CanUsePatch)
+            if (Main.CantUsePatch || !Main.settings.hollywaterMookToVillager) return true;
+
+            try
             {
-                try
+                var t = Traverse.Create(__instance);
+                List<FlashBangPoint> persistentPoints = t.GetFieldValue< List<FlashBangPoint> >("persistentPoints");
+                float counter = t.GetFloat("counter");
+                float burnTimer = t.GetFloat("burnTimer");
+                float invulnerabilityTimer = t.GetFloat("invulnerabilityTimer");
+                float frameRate = t.GetFloat("frameRate");
+
+                float maxTime = t.GetFloat("maxTime");
+                float startTime = t.GetFloat("startTime");
+
+                __instance.FirstUpdateFromPool();
+
+                float num = Mathf.Clamp(Time.deltaTime, 0f, 0.0334f);
+                counter += num;
+                if (counter >= frameRate)
                 {
-                    List<FlashBangPoint> persistentPoints = __instance.GetFieldValue< List<FlashBangPoint> >("persistentPoints");
-                    float counter = __instance.GetFloat("counter");
-                    float burnTimer = __instance.GetFloat("burnTimer");
-                    float invulnerabilityTimer = __instance.GetFloat("invulnerabilityTimer");
-                    float frameRate = __instance.GetFloat("frameRate");
-
-                    float maxTime = __instance.GetFloat("maxTime");
-                    float startTime = __instance.GetFloat("startTime");
-
-                    __instance.FirstUpdateFromPool();
-
-                    float num = Mathf.Clamp(Time.deltaTime, 0f, 0.0334f);
-                    counter += num;
-                    if (counter >= frameRate)
-                    {
-                        counter -= frameRate;
-                        __instance.GetTraverse().Method("RunPoints").GetValue();
-                    }
-                    if (Time.time - startTime > maxTime)
-                    {
-                        __instance.EffectDie();
-                    }
-
-                    burnTimer += Time.deltaTime;
-                    invulnerabilityTimer += Time.deltaTime;
-
-                    DoTheLoop(__instance, persistentPoints, burnTimer, invulnerabilityTimer);
-
-                    if (burnTimer >= 0.5f)
-                        burnTimer -= 0.5f;
-                    if (invulnerabilityTimer >= 0.2f)
-                        invulnerabilityTimer -= 0.2f;
-
-                    for (int k = persistentPoints.Count - 1; k >= 0; k--)
-                    {
-                        if (!Map.IsBlockSolid(persistentPoints[k].collumn, persistentPoints[k].row - 1))
-                        {
-                            persistentPoints.RemoveAt(k);
-                        }
-                    }
-
-                    __instance.SetFieldValue("persistentPoints", persistentPoints);
-                    __instance.SetFieldValue("counter", counter);
-                    __instance.SetFieldValue("burnTimer", burnTimer);
-                    __instance.SetFieldValue("invulnerabilityTimer", invulnerabilityTimer);
-                    __instance.SetFieldValue("frameRate", frameRate);
-
-                    return false;
+                    counter -= frameRate;
+                    t.CallMethod("RunPoints");
                 }
-                catch (Exception ex)
+                if (Time.time - startTime > maxTime)
                 {
-                    Main.ExceptionLog(ex);
+                    __instance.EffectDie();
                 }
+
+                burnTimer += Time.deltaTime;
+                invulnerabilityTimer += Time.deltaTime;
+
+                DoTheLoop(__instance, persistentPoints, burnTimer, invulnerabilityTimer);
+
+                if (burnTimer >= 0.5f)
+                    burnTimer -= 0.5f;
+                if (invulnerabilityTimer >= 0.2f)
+                    invulnerabilityTimer -= 0.2f;
+
+                for (int k = persistentPoints.Count - 1; k >= 0; k--)
+                {
+                    if (!Map.IsBlockSolid(persistentPoints[k].collumn, persistentPoints[k].row - 1))
+                    {
+                        persistentPoints.RemoveAt(k);
+                    }
+                }
+
+                t.SetFieldValue("persistentPoints", persistentPoints);
+                t.SetFieldValue("counter", counter);
+                t.SetFieldValue("burnTimer", burnTimer);
+                t.SetFieldValue("invulnerabilityTimer", invulnerabilityTimer);
+                t.SetFieldValue("frameRate", frameRate);
+
+                return false;
+            }
+            catch (Exception ex)
+            {
+                Main.ExceptionLog(ex);
             }
             return true;
         }

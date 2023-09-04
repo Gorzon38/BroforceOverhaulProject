@@ -72,13 +72,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Components\MookExtended.cs" />
-    <Compile Include="Extensions\AlienExtensions.cs" />
     <Compile Include="Extensions\MookExtensions.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="ModUI.cs" />
     <Compile Include="Mod.cs" />
     <Compile Include="Patches\Global.cs" />
     <Compile Include="Patches\Levels.cs" />
+    <Compile Include="Patches\Mods.cs" />
     <Compile Include="Patches\Scouts.cs" />
     <Compile Include="Patches\Snake.cs" />
     <Compile Include="Probability01.cs" />

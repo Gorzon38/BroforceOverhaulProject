@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="Components\Buffy_Comp.cs" />
     <Compile Include="Components\ExtendedBroComponent.cs" />
+    <Compile Include="Patches\Misc.cs" />
     <Compile Include="Patches\Mods.cs" />
     <Compile Include="Utilities.cs" />
     <Compile Include="Components\Bros.cs" />

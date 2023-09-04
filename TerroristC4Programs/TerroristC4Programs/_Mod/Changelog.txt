@@ -1,6 +1,7 @@
 v0.1.0 :
 -- DECAPITATION UPDATE --
-
+Added decapitation for: Strong Bruiser, Elite Bruiser, Mook Bazooka
+Better decapitation for: Trooper, Mook Strong
 
 v0.0.0 :
  - Initial Release

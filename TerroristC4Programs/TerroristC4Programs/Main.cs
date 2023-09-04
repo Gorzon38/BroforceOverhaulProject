@@ -1,6 +1,7 @@
 ﻿using HarmonyLib;
 using System;
 using System.Reflection;
+using UnityEngine;
 using UnityModManagerNet;
 
 namespace TerroristC4Programs
@@ -32,6 +33,8 @@ namespace TerroristC4Programs
                 mod.Logger.Log("Failed to Patch Harmony !\n" + ex.ToString());
             }
 
+            new GameObject("TC4P", typeof(Mod));
+
             return true;
         }
 
@@ -59,6 +62,10 @@ namespace TerroristC4Programs
         public static void ExceptionLog(string s, Exception ex)
         {
             Log(s + "\n" + ex);
+        }
+        public static void ExceptionLog(Exception ex)
+        {
+            Log(ex);
         }
     }
 
