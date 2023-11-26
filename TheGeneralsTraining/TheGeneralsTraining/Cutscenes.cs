@@ -1,17 +1,15 @@
-using HarmonyLib;
-using System;
-using System.Collections;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using TFBGames.Systems;
 using UnityEngine;
 
 namespace TheGeneralsTraining
 {
     public static class Cutscenes
     {
+        /// <summary>
+        /// Return a copy of the current <see cref="CutsceneIntroData"/>
+        /// </summary>
+        /// <param name="data"></param>
+        /// <returns></returns>
         public static CutsceneIntroData Clone(this CutsceneIntroData data)
         {
             var result = new CutsceneIntroData()
@@ -32,6 +30,11 @@ namespace TheGeneralsTraining
             return result;
         }
 
+        /// <summary>
+        /// Add space to a string before every Upper Case
+        /// </summary>
+        /// <param name="self"></param>
+        /// <returns></returns>
         public static string AddSpaces(this string self)
         {
             bool flag = false;
@@ -65,18 +68,18 @@ namespace TheGeneralsTraining
 
         public static void Initialize()
         {
-            if (_hasInitialized) return;
+            if (_hasInitialized)
+                return;
+            _hasInitialized = true;
 
-
+            // Create Cutscenes for Expendabros Bros
             broneyRoss = CreateCutscene("BroneyRoss", CutsceneName.BroneyRoss);
             broCaesar = CreateCutscene("BroCaesar", CutsceneName.HaleTheBro);
             bronnarJensen = CreateCutscene("BronnarJensen", CutsceneName.BronnarJensen);
             leeBroxmass = CreateCutscene("LeeBroxmass", CutsceneName.LeeBroxmas);
             trentBroser = CreateCutscene("TrentBroser", CutsceneName.TrentBroser);
             tollBroad = CreateCutscene("TollBroad", CutsceneName.TollBroad);
-            broc = CreateCutscene("Broctor Death", CutsceneName.Broc);
-
-            //_hasInitialized = true;
+            broc = CreateCutscene("BroctorDeath", CutsceneName.Broc);
         }
 
         public static CutsceneIntroData CreateCutscene(string name, CutsceneName cutsceneName)
@@ -84,14 +87,17 @@ namespace TheGeneralsTraining
             if(_ramboCutscene == null)
                 _ramboCutscene = ResourcesController.LoadAssetSync<CutsceneIntroData>("cutscenes:Intro_Bro_Rambro");
 
+            // Copy the cutscene data of Rambro
             var result = _ramboCutscene.Clone();
+            // Try to get the cutscene sprite for the bro.
             var tex = ResourcesController.GetTexture($"{name}_Cutscene.png");
             if (tex != null)
                 result.spriteTexture = tex;
             result.heading = name.AddSpaces();
+            // Get audio name of the bro
             result.bark = ResourcesController.LoadAssetSync<AudioClip>(AudioClipName(cutsceneName));
-            //result.spriteSize *= 0.7f;
 
+            // Add the custom cutscene to the global cutscene Dictionary
             var cutscenes = GetCutscenes();
             cutscenes[cutsceneName] = $"TGT_{name}";
 
@@ -114,7 +120,7 @@ namespace TheGeneralsTraining
                     return trentBroser;
                 case "TGT_TollBroad":
                     return tollBroad;
-                case "TGT_Broc":
+                case "TGT_BroctorDeath":
                     return broc;
 
                 default:
