@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace TheGeneralsTraining
 {
-    public static class ResourcesController
+    internal static class ResourcesController
     {
         public static string AssetsFolder
         {
