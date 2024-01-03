@@ -68,7 +68,7 @@ namespace TheGeneralsTraining
         /// <summary>
         /// 007
         /// </summary>
-        public bool drunkSeven;
+        public bool lessAccurateIfDrunk;
 
         /// <summary>
         /// Brade
@@ -111,7 +111,7 @@ namespace TheGeneralsTraining
         /// <summary>
         /// Casey Broback
         /// </summary>
-        public bool strongerMelee;
+        public bool caseyBroBackStrongerMelee;
         /// <summary>
         /// Casey Broback
         /// </summary>
@@ -129,7 +129,7 @@ namespace TheGeneralsTraining
         /// <summary>
         /// Desperabros
         /// </summary>
-        public bool mariachisPlayMusic;
+        public bool mariachisStartSerenadingIfNoEnemyAround;
 
         /// <summary>
         /// Dirty Harry

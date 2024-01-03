@@ -139,7 +139,7 @@ namespace TheGeneralsTraining
         private static void CaseyBroback()
         {
             BeginVerticalBox();
-            Sett.strongerMelee = GUILayout.Toggle(Sett.strongerMelee, new GUIContent("Stronger Melee"));
+            Sett.caseyBroBackStrongerMelee = GUILayout.Toggle(Sett.caseyBroBackStrongerMelee, new GUIContent("Stronger Melee"));
             Sett.pigGrenade = GUILayout.Toggle(Sett.pigGrenade, new GUIContent("Pig Grenade", "Replace the special with a pig grenade."));
             GUILayout.EndVertical();
         }
@@ -157,7 +157,7 @@ namespace TheGeneralsTraining
         private static void Desperabro()
         {
             BeginVerticalBox();
-            Sett.mariachisPlayMusic = GUILayout.Toggle(Sett.mariachisPlayMusic, new GUIContent("Mariachis Play Music", "When they have no enemies to shoot at, they play music."));
+            Sett.mariachisStartSerenadingIfNoEnemyAround = GUILayout.Toggle(Sett.mariachisStartSerenadingIfNoEnemyAround, new GUIContent("Mariachis Play Music", "When they have no enemies to shoot at, they play music."));
             GUILayout.EndVertical();
         }
         private static void DirtyHarry()
@@ -170,7 +170,7 @@ namespace TheGeneralsTraining
         private static void DoubleBroSeven()
         {
             BeginVerticalBox();
-            Sett.drunkSeven = GUILayout.Toggle(Sett.drunkSeven, new GUIContent("Don't drink", "007 is less accurate when he has drink more than 3 cocktails"));
+            Sett.lessAccurateIfDrunk = GUILayout.Toggle(Sett.lessAccurateIfDrunk, new GUIContent("Don't drink", "007 is less accurate when he has drink more than 3 cocktails"));
             GUILayout.EndVertical();
 
             BeginVerticalBox("Special");
