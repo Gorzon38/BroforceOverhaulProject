@@ -1,17 +1,26 @@
-﻿using System;
-using HarmonyLib;
-using UnityEngine;
-using UnityModManagerNet;
+﻿using HarmonyLib;
 
-namespace TheGeneralsTraining.Patches.Bros.Brochete0
+namespace TheGeneralsTraining.Patches.Bros
 {
-    // TODO : Fix pushing
-    /*[HarmonyPatch(typeof(Brochete), "AnimatePushing")]
-    static class Brochete_Pushing_Patch
+    [HarmonyPatch(typeof(Brochete))]
+    public class BrochetePatches
     {
-        static void Postfix(Brochete __instance)
+        [HarmonyPatch("Awake")]
+        [HarmonyPostfix]
+        public static void IsEnablingAlternateSpecialAnimation(Brochete __instance)
         {
-            if (Main.enabled)
+            if (Main.CanUsePatch)
+            {
+                __instance.SetFieldValue("test6Frames", Main.settings.alternateSpecialAnim);
+            }
+        }
+
+        // TODO : Fix pushing
+        [HarmonyPatch("AnimatePushing")]
+        [HarmonyPostfix]
+        private static void FixPushingAnimation(Brochete __instance)
+        {
+            /*if (Main.enabled)
             {
                 try
                 {
@@ -28,26 +37,7 @@ namespace TheGeneralsTraining.Patches.Bros.Brochete0
                 {
                     Main.bmod.logger.ExceptionLog("Failed to patch Brochete pushing", ex);
                 }
-            }
-        }
-    }*/
-
-    [HarmonyPatch(typeof(Brochete), "Awake")]
-    static class Brochete_Awake_Patch
-    {
-        static void Postfix(Brochete __instance)
-        {
-            if (Main.CanUsePatch)
-            {
-                try
-                {
-                    __instance.SetFieldValue("test6Frames", Main.settings.alternateSpecialAnim);
-                }
-                catch(Exception e)
-                {
-                    Main.Log(e);
-                }
-            }
+            }*/
         }
     }
 }

@@ -1,20 +1,21 @@
-﻿using System;
-using HarmonyLib;
+﻿using HarmonyLib;
 using UnityEngine;
 
-namespace TheGeneralsTraining.Patches.Bros.DirtyBrorry
+namespace TheGeneralsTraining.Patches.Bros
 {
-    [HarmonyPatch(typeof(BroBase), "AnimateMeleeCommon")]
-    static class AnimateMeleeCommon_Patch
+    [HarmonyPatch(typeof(BroBase))]
+    public class DirtyBrorryPatches
     {
-        static void Postfix(BroBase __instance)
+        [HarmonyPatch("AnimateMeleeCommon")]
+        [HarmonyPostfix]
+        private static void ReloadOnPunch(BroBase __instance)
         {
             // Reload on punch hit
             if (Main.CanUsePatch && __instance is DirtyHarry && Main.settings.reloadOnPunch)
             {
-                __instance = __instance as DirtyHarry;
                 if (__instance.GetBool("meleeHasHit"))
                 {
+                    // Reset gun stats
                     __instance.SetFieldValue("bulletCount", 0);
                     __instance.SetFieldValue("reloadDelay", 0);
                     __instance.fireDelay = 0f;

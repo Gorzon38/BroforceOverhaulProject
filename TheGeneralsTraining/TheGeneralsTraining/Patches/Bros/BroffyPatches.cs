@@ -1,32 +1,37 @@
-﻿using HarmonyLib;
-using RocketLib;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using TheGeneralsTraining.Components;
+﻿using System.Collections.Generic;
+using HarmonyLib;
 using UnityEngine;
+using RocketLib;
+using TheGeneralsTraining.Components;
 
-namespace TheGeneralsTraining.Patches.Bros.Buffy
+namespace TheGeneralsTraining.Patches.Bros
 {
-    [HarmonyPatch(typeof(BroBase), "Awake")]
-    static class BroBase_Awake_Patch
+    [HarmonyPatch(typeof(Broffy))]
+    public class BroffyPatches
     {
-        static void Prefix(BroBase __instance)
+        public static AudioClip[] kickClips;
+        // Key: Collumn | Value: Row
+        public static KeyValuePair<int, int> kickAnimationFirstFrame = new KeyValuePair<int, int>(6, 17);
+
+        [HarmonyPatch(typeof(BroBase), "Awake")]
+        [HarmonyPrefix]
+        private static void BroffyAwake(BroBase __instance)
         {
-            if (Main.CantUsePatch) return;
+            if (Mod.CantUsePatch)
+                return;
 
             if (__instance is Broffy)
             {
-                __instance.soundHolder = HeroController.GetHeroPrefab(HeroType.Nebro).soundHolder;
                 __instance.GetOrAddComponent<Buffy_Comp>();
+                //Store Nebro punch sound, to replace Broffy kick sound
+                if (kickClips == null)
+                    kickClips = HeroController.GetHeroPrefab(HeroType.Nebro).soundHolder.special2Sounds;
             }
         }
-    }
 
-    [HarmonyPatch(typeof(BroBase), "CancelMelee")]
-    static class BorBase_CancelMelee_Patch
-    {
-        static void Postfix(BroBase __instance)
+        [HarmonyPatch(typeof(BroBase), "CancelMelee")]
+        [HarmonyPostfix]
+        private static void StopFlyingKick(BroBase __instance)
         {
             if (Mod.CanUsePatch)
             {
@@ -37,14 +42,15 @@ namespace TheGeneralsTraining.Patches.Bros.Buffy
                 }
             }
         }
-    }
 
-    [HarmonyPatch(typeof(Broffy), "PerformKnifeMeleeAttack")]
-    static class Broffy_PerformKnifeMeleeAttack_Patch
-    {
-        static bool Prefix(Broffy __instance, bool shouldTryHitTerrain, bool playMissSound)
+        [HarmonyPatch("PerformKnifeMeleeAttack")]
+        [HarmonyPrefix]
+        private static bool NewPerformKnifeMeleeAttack(Broffy __instance, bool shouldTryHitTerrain, bool playMissSound)
         {
-            if (Main.CantUsePatch || !Main.settings.betterKick) return true;
+            if (Main.CantUsePatch || !Main.settings.betterKick)
+                return true;
+
+            // From method 'Broffy.PerformKnifeMeleeAttack(bool,bool)'
 
             Traverse t = __instance.GetTraverse();
             Sound sound = t.GetFieldValue<Sound>("sound");
@@ -73,8 +79,9 @@ namespace TheGeneralsTraining.Patches.Bros.Buffy
             }
             if (Map.HitClosestUnit(__instance, __instance.playerNum, damage, damageType, 14f, 24f, __instance.X + __instance.transform.localScale.x * 8f, __instance.Y + 8f, xI, yI, knock, false, __instance.IsMine, false, (damageType == DamageType.Knifed || Buffy_Comp.doingFlyingKick)))
             {
+                // Change the hit sound if Broffy is kicking an opponent
                 if (damageType == DamageType.Melee)
-                    sound.PlaySoundEffectAt(__instance.soundHolder.special2Sounds, 1f, __instance.transform.position);
+                    sound.PlaySoundEffectAt(kickClips, 1f, __instance.transform.position);
                 else
                     sound.PlaySoundEffectAt(__instance.soundHolder.meleeHitSound, 1f, __instance.transform.position);
                 t.SetFieldValue("meleeHasHit", true);
@@ -90,16 +97,15 @@ namespace TheGeneralsTraining.Patches.Bros.Buffy
             }
             return false;
         }
-    }
 
-    [HarmonyPatch(typeof(Broffy), "AnimateKnifeMelee")]
-    static class AnimateKnifeMelee_Patch
-    {
-        static TwoInt kick = new TwoInt(6, 17);
-
-        static bool Prefix(Broffy __instance)
+        [HarmonyPatch("AnimateKnifeMelee")]
+        [HarmonyPrefix]
+        private static bool BetterMelee(Broffy __instance)
         {
-            if (Mod.CantUsePatch) return true;
+            if (Mod.CantUsePatch)
+                return true;
+
+            // From method 'Broffy.AnimateKnifeMelee()'
 
             __instance.CallMethod("AnimateMeleeCommon");
             bool dashingMelee = __instance.GetBool("dashingMelee");
@@ -107,18 +113,22 @@ namespace TheGeneralsTraining.Patches.Bros.Buffy
             int frameRow = 7;
 
             var comp = __instance.GetComponent<Buffy_Comp>();
+
             if (__instance.GetBool("standingMelee") && Utilities.IsOnAnimal(__instance))
             {
                 frameRow = 1;
             }
             else if (__instance.GetBool("jumpingMelee"))
             {
+                // If jumping and melee, do flying kick
                 frameCol = Buffy_Comp.flyingKickCol + Mathf.Clamp(__instance.frame, 0, Buffy_Comp.flyingKickMaxFrame);
                 frameRow = Buffy_Comp.flyingKickRow;
                 comp.StartFlyingKick();
             }
+            // dashingMelee is set to true if the player goes left or right
             else if (dashingMelee)
             {
+                // If player is running do Flying Kick, else normal kick
                 if (__instance.dashing)
                 {
                     frameCol = Buffy_Comp.flyingKickCol + Mathf.Clamp(__instance.frame, 0, Buffy_Comp.flyingKickMaxFrame);
@@ -127,8 +137,8 @@ namespace TheGeneralsTraining.Patches.Bros.Buffy
                 }
                 else
                 {
-                    frameCol = kick.y + Mathf.Clamp(__instance.frame, 0, 9);
-                    frameRow = kick.x;
+                    frameCol = kickAnimationFirstFrame.Value + Mathf.Clamp(__instance.frame, 0, 9);
+                    frameRow = kickAnimationFirstFrame.Key;
                     if (__instance.frame == 4)
                     {
                         __instance.counter -= 0.0334f;
