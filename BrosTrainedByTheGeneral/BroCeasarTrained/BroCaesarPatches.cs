@@ -1,6 +1,7 @@
 using HarmonyLib;
 using RocketLib;
 using UnityEngine;
+using static Text3D;
 
 namespace BroCeasarTrained
 {
@@ -26,6 +27,13 @@ namespace BroCeasarTrained
             __instance.useNewLadderClimbingFrames = VSettings.useLadderClimbingAnimation;
 
             __instance.originalSpecialAmmo = VSettings.maxAmmo;
+
+            if (TSettings.hasHalo)
+            {
+                var halo = HeroController.GetHeroPrefab(HeroType.Broffy).halo;
+                __instance.halo = UnityEngine.Object.Instantiate(halo, halo.transform.localPosition, Quaternion.identity);
+                __instance.halo.transform.parent = __instance.transform;
+            }
         }
 
         [HarmonyPatch("Awake")]

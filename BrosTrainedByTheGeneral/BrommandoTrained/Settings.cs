@@ -30,6 +30,9 @@ namespace BrommandoTrained
         [Draw("Enabled Mod in Custom Levels")]
         public bool patchInCustomsLevel = false;
 
+        [Draw("Has Halo")]
+        public bool hasHalo = false;
+
         [Draw("Enable New Barrage")]
         public bool useNewBarage = true;
 
