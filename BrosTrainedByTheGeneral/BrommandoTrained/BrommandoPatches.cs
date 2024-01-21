@@ -101,15 +101,20 @@ namespace BrommandoTrained
 
         [HarmonyPatch("Update")]
         [HarmonyPostfix]
-        private static void AnimateShootAtFeet(Brommando __instance)
+        private static void NewUpdate(Brommando __instance)
         {
             if (Mod.CantUsePatch)
                 return;
 
             TrainedBrommando rework = __instance.GetComponent<TrainedBrommando>();
-            if (rework == null || !rework.willShootAtHisFeet)
+            if (rework == null)
                 return;
 
+            rework.NewBarrage();
+
+            // Shoot At Feet
+            if (!rework.willShootAtHisFeet)
+                return;
             int row = shootAtFeetAnimationPosition.x;
             int column = shootAtFeetAnimationPosition.y + Mathf.Clamp(__instance.frame, 0, 8); // 8 is the max of frame for the animation
             if (__instance.frame == 3)
@@ -150,13 +155,18 @@ namespace BrommandoTrained
                         0f, false, __instance.playerNum, false, false, 0f);
 
                     __instance.CallMethod("PlayAttackSound");
-                    __instance.SetFieldValue("firingBarage", true);
+                    __instance.SetFieldValue("firingBarage", !TSettings.useNewBarage);
                     __instance.SetFieldValue("barageCounter", 0.1333f);
                     __instance.SetFieldValue("barageCount", VSettings.barrageMax);
 
                     __instance.SetFieldValue("specialX", specialX);
                     __instance.SetFieldValue("specialY", specialY);
                     __instance.SetFieldValue("barageDirection", barageDirection);
+
+                    if (TSettings.useNewBarage)
+                    {
+                        __instance.GetOrAddComponent<TrainedBrommando>().ShootingNewBarage = true;
+                    }
                 }
             }
             else

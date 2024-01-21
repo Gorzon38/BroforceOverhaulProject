@@ -16,6 +16,10 @@ namespace BrommandoTrained
         {
             get => TSettings.melee;
         }
+        public static VanillaSettings VSettings
+        {
+            get => Main.settings.vanilla;
+        }
         // Settings
         public static Vector2Int firstPunchAnimationPosition
         {
@@ -34,11 +38,13 @@ namespace BrommandoTrained
         public int punchCount { get; private set; } = 0;
         public bool smashing { get; private set; } = false;
         public bool willShootAtHisFeet { get; private set; } = false;
+        public bool ShootingNewBarage { get; set; } = false;
 
         private int _bronanPunchAnimationRow = 0;
         private int _bronanPunchAnimationColumn = 0;
         private float _smashingTime = 0f;
         private bool _hasShot = false;
+        private bool _shootingNewBarage = false;
 
         private void Awake()
         {
@@ -319,6 +325,36 @@ namespace BrommandoTrained
                 );
             brommando.yI = TSettings.fireAtFeetYBlast;
             _hasShot = true;
+        }
+
+        public void NewBarrage()
+        {
+            if (!ShootingNewBarage)
+                return;
+
+            float barageCounter = brommando.GetFloat("barageCounter");
+            barageCounter -= brommando.GetFloat("t");
+            if (barageCounter <= 0f)
+            {
+                barageCounter = 0.1333f;
+                int barageCount = brommando.GetInt("barageCount");
+                barageCount--;
+                if (barageCount >= 0)
+                {
+                    ProjectileController.SpawnProjectileOverNetwork(brommando.barageProjectile, brommando,
+                        brommando.X + brommando.transform.localScale.x * VSettings.projectileSpawnOffset.x,
+                        brommando.Y + VSettings.projectileSpawnOffset.y,
+                        Mathf.Sign(brommando.transform.localScale.x) * 150f,
+                        0f, false, brommando.playerNum, false, false, 0f);
+                    brommando.CallMethod("PlayAttackSound");
+                }
+                else
+                {
+                    ShootingNewBarage = false;
+                }
+                brommando.SetFieldValue("barageCount", barageCount);
+            }
+            brommando.SetFieldValue("barageCounter", barageCounter);
         }
     }
 }

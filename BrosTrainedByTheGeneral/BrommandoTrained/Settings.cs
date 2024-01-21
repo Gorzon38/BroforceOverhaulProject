@@ -30,6 +30,9 @@ namespace BrommandoTrained
         [Draw("Enabled Mod in Custom Levels")]
         public bool patchInCustomsLevel = false;
 
+        [Draw("Enable New Barrage")]
+        public bool useNewBarage = true;
+
         [Space(10), Header("Custom Melee")]
         [Draw("Enabled", DrawType.ToggleGroup)]
         public Its useCustomMelee = Its.Yes;
