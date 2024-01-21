@@ -7,5 +7,5 @@
   "LoadAfter": [ "RocketLib", "DresserMod" ],
   "AssemblyName": "BrommandoTrained.dll",
   "EntryMethod": "BrommandoTrained.Main.Load",
-  "Repository": "https://raw.githubusercontent.com/Gorzonok/Mods-Broforce/main/Repository.json"
+  "Repository": "https://raw.githubusercontent.com/Gorzonok/BroforceOverhaulProject/main/Repository.json"
 }
