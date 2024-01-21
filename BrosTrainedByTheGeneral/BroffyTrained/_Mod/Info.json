@@ -1,0 +1,11 @@
+﻿{
+  "Id": "com.gorzontrok.broffytrained",
+  "DisplayName": "Broffy Trained",
+  "Author": "Gorzontrok",
+  "Version": "1.0.0",
+  "Requirements": [ "RocketLib", "DresserMod" ],
+  "LoadAfter": [ "RocketLib", "DresserMod" ],
+  "AssemblyName": "BroffyTrained.dll",
+  "EntryMethod": "BroffyTrained.Main.Load",
+  "Repository": "https://raw.githubusercontent.com/Gorzontrok/BroforceOverhaulProject/main/Repository.json"
+}
