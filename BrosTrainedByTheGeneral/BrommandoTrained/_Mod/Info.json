@@ -1,0 +1,11 @@
+﻿{
+  "Id": "com.gorzontrok.brommandotrained",
+  "DisplayName": "Brommando Trained",
+  "Author": "Gorzontrok",
+  "Version": "1.0.0",
+  "Requirements": [ "RocketLib", "DresserMod" ],
+  "LoadAfter": [ "RocketLib", "DresserMod" ],
+  "AssemblyName": "BrommandoTrained.dll",
+  "EntryMethod": "BrommandoTrained.Main.Load",
+  "Repository": "https://raw.githubusercontent.com/Gorzonok/Mods-Broforce/main/Repository.json"
+}

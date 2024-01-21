@@ -1,8 +1,9 @@
 {
     "Releases":
     [
-        {"Id": "TerroristC4ProgramsMod", "Version": "1.0.0", "DownloadUrl": "https://github.com/Gorzon38/BroforceOverhaulProjects/raw/main/Releases/TC4P/TerroristC4ProgramsMod.zip"},
-        {"Id": "VillagerSecretTraining", "Version": "1.0.0", "DownloadUrl": "https://github.com/Gorzon38/Mods-Broforce/raw/main/Releases/VST/AutoEnterPassword.zip"},
-        {"Id": "TheGeneralsTraining", "Version": "0.4.1", "DownloadUrl": "https://github.com/Gorzon38/Mods-Broforce/raw/main/Releases/TGT/TheGeneralsTraining.zip"}
+        {"Id": "TerroristC4ProgramsMod", "Version": "1.0.0", "DownloadUrl": "https://github.com/Gorzontrok/BroforceOverhaulProjects/raw/main/Releases/TC4P/TerroristC4ProgramsMod.zip"},
+        {"Id": "VillagerSecretTraining", "Version": "1.0.0", "DownloadUrl": "https://github.com/Gorzontrok/BroforceOverhaulProjects/raw/main/Releases/VST/AutoEnterPassword.zip"},
+        {"Id": "TheGeneralsTraining", "Version": "0.4.1", "DownloadUrl": "https://github.com/Gorzontrok/BroforceOverhaulProjects/raw/main/Releases/TGT/TheGeneralsTraining.zip"},
+        {"Id": "com.gorzontrok.brommandotrained", "Version": "1.0.0", "DownloadUrl": "https://github.com/Gorzontrok/BroforceOverhaulProjects/raw/main/Releases/BrommadoTrained/BrommadoTrained-v1.0.0.zip"}
     ]
 }

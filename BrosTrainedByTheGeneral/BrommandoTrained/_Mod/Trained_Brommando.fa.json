@@ -1,0 +1,8 @@
+{
+    "Name": "Brommando Trained",
+    "Wearer": "Brommando",
+    "Clothes": {
+        "sprite": "Trained_Brommando_anim.png",
+        "gunSprite":"Trained_Brommando_gun_anim.png"
+    }
+}
