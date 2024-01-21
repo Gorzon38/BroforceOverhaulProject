@@ -63,12 +63,6 @@ namespace BroCeasarTrained
         [Header("Weapon")]
         [Draw("Disturb Wild Life Range", DrawType.Slider, Min = 0, Max = 500)]
         public float disturbWildLifeRange = 80f;
-        [Draw("Fire Delay")]
-        public float fireDelay = 0.6f;
-        [Draw("Fire Delay in ProcGen", VisibleOn = "#_ProcGenEnabled|True")]
-        public float fireDelayProcGen = 0.75f;
-        [Draw("Animation Shoot Starting Frame")]
-        public int gunShootColumnStartingFrame = 3;
         [Draw("Projectile Spawn Offset")]
         public Vector2 projectileSpawnOffset = new Vector2(12f, 6f);
         [Draw("Projectile Speed on X")]
