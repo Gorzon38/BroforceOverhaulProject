@@ -1,0 +1,11 @@
+﻿{
+  "Id": "com.gorzontrok.broceasartrained",
+  "DisplayName": "Bro Ceasar Trained",
+  "Author": "Gorzontrok",
+  "Version": "1.0.0",
+  "Requirements": [ "RocketLib", "DresserMod" ],
+  "LoadAfter": [ "RocketLib", "DresserMod" ],
+  "AssemblyName": "BroCeasarTrained.dll",
+  "EntryMethod": "BroCeasarTrained.Main.Load",
+  "Repository": "https://raw.githubusercontent.com/Gorzontrok/BroforceOverhaulProject/main/Repository.json"
+}
