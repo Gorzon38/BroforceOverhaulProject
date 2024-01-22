@@ -1,0 +1,8 @@
+{
+    "Name": "Lee Broxmas Trained",
+    "Wearer": "LeeBroxmas",
+    "Clothes": {
+        "sprite": "Trained_LeeBroxmas_anim.png",
+        "player.hud.avatar": "avatar_TrainedLeeBroxmas.png"
+    }
+}

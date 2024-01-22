@@ -1,0 +1,11 @@
+﻿{
+  "Id": "com.gorzontrok.leebroxmastrained",
+  "DisplayName": "Lee Broxmas Trained",
+  "Author": "Gorzontrok",
+  "Version": "1.0.0",
+  "Requirements": [ "RocketLib", "DresserMod" ],
+  "LoadAfter": [ "RocketLib", "DresserMod" ],
+  "AssemblyName": "LeeBroxmasTrained.dll",
+  "EntryMethod": "LeeBroxmasTrained.Main.Load",
+  "Repository": "https://raw.githubusercontent.com/Gorzonok/BroforceOverhaulProject/main/Repository.json"
+}
