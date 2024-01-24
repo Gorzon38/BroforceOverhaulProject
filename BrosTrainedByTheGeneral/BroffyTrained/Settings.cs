@@ -48,7 +48,7 @@ namespace BroffyTrained
 
         [Draw("Enabled Flying Kick", DrawType.ToggleGroup)]
         public Its useFlyingKick = Its.Yes;
-        [Draw(Box = true, VisibleOn = "useFlyingKick|Yes")]
+        [Draw("", Box = true, VisibleOn = "useFlyingKick|Yes")]
         public FlyingKickSettings flyingKick = new FlyingKickSettings();
 
         [Draw("Holy Water Settings", Collapsible = true)]

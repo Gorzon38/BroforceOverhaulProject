@@ -2,8 +2,6 @@
 using HarmonyLib;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using UnityEngine;
 
 namespace BroffyTrained
@@ -30,6 +28,7 @@ namespace BroffyTrained
             HeroController.SetHeroesWillComebackToLife(vector.x, vector.y, HSettings.reviveRange, HSettings.revivePointDuration);
         }
 
+        // Burn Hell Units in Holy Water
         private static bool HitHellUnits(HolyWaterExplosion __instance, List<FlashBangPoint> persistentPoints, int i)
         {
             return Map.HitHellUnits(
@@ -37,34 +36,54 @@ namespace BroffyTrained
                 __instance.playerNum,
                 __instance.GetFieldValue<int>("holyWaterDamage"),
                 DamageType.Fire,
-                HSettings.hitHellUnitsRange,
-                Map.GetBlocksX(persistentPoints[i].collumn) + 8f, Map.GetBlocksY(persistentPoints[i].row) + 8f, // x y
-                0f, 0f,
-                true, false, false,
+                HSettings.hitHellUnitsRange, // range
+                Map.GetBlocksX(persistentPoints[i].collumn) + 8f, Map.GetBlocksY(persistentPoints[i].row) + 8f, // x, y
+                0f, 0f, // xI, yI
+                true, false, false, // penetrates, knock, ignoreDeadUnits
                 canHeadshot: false
                 );
         }
 
-        private static bool CanSwapToMook(Unit unit)
+        private static bool CanSwapUnitToVillager(Unit unit)
         {
-            return HSettings.mookToVillager && (unit is MookTrooper || unit is UndeadTrooper || unit is MookRiotShield || unit is MookSuicide || unit is ScoutMook || unit is MookBazooka);
+            return HSettings.mookToVillager && (unit is MookTrooper || unit is MookRiotShield || unit is MookSuicide || unit is ScoutMook || unit is MookBazooka);
         }
-        private static void SwapMookToVillager(Unit unit, int playerNum)
+        private static void SwapUnitToVillager(Unit unit, int playerNum)
         {
-            Villager villager = MapController.SpawnVillager_Networked(Map.Instance.activeTheme.villager1[0].GetComponent<Villager>(), unit.X, unit.Y, 0, 0, false, false, false, false, true, playerNum);
+            int randomIndex = Map.Instance.activeTheme.villager1.RandomIndex();
+            TestVanDammeAnim villagerChoosed = Map.Instance.activeTheme.villager1[randomIndex];
+            Villager villager = MapController.SpawnVillager_Networked(
+                villagerChoosed.GetComponent<Villager>(), // villagerPrefab
+                unit.X, unit.Y, // x, y
+                0f, 0f, // xI, yI
+                tumble: false,
+                useParachuteDelay: false,
+                useParachute: false,
+                onFire: false,
+                isAlert: true,
+                playerNum
+                );
             villager.Panic(0.3f, true);
             unit.DestroyNetworked();
         }
 
-        private static bool CanSwapToPig(Unit unit)
+        private static bool CanSwapUnitToPig(Unit unit)
         {
             return HSettings.dogsToPigs && ( (unit is MookDog && !unit.As<MookDog>().isMegaDog) && !(unit is Alien) && !(unit is HellDog) && !(unit as MookDog).isMegaDog);
         }
-
-        private static void SwapMookToPig(Unit unit)
+        private static void SwapUnitToPig(Unit unit)
         {
-            TestVanDammeAnim tvda = MapController.SpawnTestVanDamme_Networked(Map.Instance.activeTheme.animals[2].GetComponent<TestVanDammeAnim>(), unit.X, unit.Y, 0f, 0f, false, false, false, false);
-            //tvda.Panic(0.3f, false);
+            GameObject rottenPig = Map.Instance.activeTheme.animals[2];
+            TestVanDammeAnim tvda = MapController.SpawnTestVanDamme_Networked(
+                rottenPig.GetComponent<TestVanDammeAnim>(), // vanDamPrefab
+                unit.X, unit.Y, // x, y
+                0f, 0f, // xI, yI
+                tumble: false,
+                useParachuteDelay: false,
+                useParachute: false,
+                onFire: false
+            );
+
             unit.DestroyNetworked();
         }
 
@@ -80,13 +99,13 @@ namespace BroffyTrained
             {
                 if (unit != null && (unit as Mook) && !unit.invulnerable && unit.IsAlive())
                 {
-                    if (CanSwapToMook(unit))
+                    if (CanSwapUnitToVillager(unit))
                     {
-                        SwapMookToVillager(unit, playerNum);
+                        SwapUnitToVillager(unit, playerNum);
                     }
-                    else if (CanSwapToPig(unit))
+                    else if (CanSwapUnitToPig(unit))
                     {
-                        SwapMookToPig(unit);
+                        SwapUnitToPig(unit);
                     }
                 }
             }
@@ -96,10 +115,13 @@ namespace BroffyTrained
         {
             for (int i = 0; i < persistentPoints.Count; i++)
             {
+                // 'brunTimer' and 'invulnerableTimer' values are changed in 'HolyWaterExplosionPatches::NewUpdate()'
+
+                // also use 'burnTimer' for swapping
                 if (burnTimer >= 0.5f)
                 {
-                    if (!HitHellUnits(holyWaterExplosion, persistentPoints, i))
-                        Swaper(persistentPoints, i, holyWaterExplosion.playerNum);
+                    HitHellUnits(holyWaterExplosion, persistentPoints, i);
+                    Swaper(persistentPoints, i, holyWaterExplosion.playerNum);
                 }
 
                 if (invulnerabilityTimer >= 0.2f)
@@ -119,6 +141,7 @@ namespace BroffyTrained
             try
             {
                 var t = Traverse.Create(__instance);
+                // Get all variables values that the method need
                 List<FlashBangPoint> persistentPoints = t.GetFieldValue<List<FlashBangPoint>>("persistentPoints");
                 float counter = t.GetFloat("counter");
                 float burnTimer = t.GetFloat("burnTimer");
@@ -130,13 +153,16 @@ namespace BroffyTrained
 
                 __instance.FirstUpdateFromPool();
 
-                float num = Mathf.Clamp(Time.deltaTime, 0f, 0.0334f);
-                counter += num;
+                // Sprite animation frame rate
+                float counterIncrement = Mathf.Clamp(Time.deltaTime, 0f, 0.0334f);
+                counter += counterIncrement;
                 if (counter >= frameRate)
                 {
                     counter -= frameRate;
                     t.CallMethod("RunPoints");
                 }
+
+                // Times run out ? Yes: it dies
                 if (Time.time - startTime > maxTime)
                 {
                     __instance.EffectDie();
@@ -145,6 +171,7 @@ namespace BroffyTrained
                 burnTimer += Time.deltaTime;
                 invulnerabilityTimer += Time.deltaTime;
 
+                // Custom Method to swap units to handles the swapping and hell unit burner
                 DoTheLoop(__instance, persistentPoints, burnTimer, invulnerabilityTimer);
 
                 if (burnTimer >= 0.5f)
@@ -152,14 +179,16 @@ namespace BroffyTrained
                 if (invulnerabilityTimer >= 0.2f)
                     invulnerabilityTimer -= 0.2f;
 
-                for (int k = persistentPoints.Count - 1; k >= 0; k--)
+                // Delete useless point
+                for (int i = persistentPoints.Count - 1; i >= 0; i--)
                 {
-                    if (!Map.IsBlockSolid(persistentPoints[k].collumn, persistentPoints[k].row - 1))
+                    if (!Map.IsBlockSolid(persistentPoints[i].collumn, persistentPoints[i].row - 1))
                     {
-                        persistentPoints.RemoveAt(k);
+                        persistentPoints.RemoveAt(i);
                     }
                 }
 
+                // Set private & protected variables values that we changed
                 t.SetFieldValue("persistentPoints", persistentPoints);
                 t.SetFieldValue("counter", counter);
                 t.SetFieldValue("burnTimer", burnTimer);

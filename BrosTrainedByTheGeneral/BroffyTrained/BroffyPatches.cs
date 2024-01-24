@@ -20,8 +20,6 @@ namespace BroffyTrained
 
         public static AudioClip[] kickClips;
 
-
-
         [HarmonyPatch(typeof(BroBase), "Awake")]
         [HarmonyPrefix]
         private static void BroffyAwake(BroBase __instance)
