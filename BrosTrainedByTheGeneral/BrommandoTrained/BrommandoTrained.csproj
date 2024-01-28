@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="_Mod\Info.json" />
+    <None Include="_Mod\Trained_Brommando.fa.json" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="_Mod\Changelog.txt" />

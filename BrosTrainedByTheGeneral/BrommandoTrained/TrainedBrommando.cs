@@ -44,7 +44,6 @@ namespace BrommandoTrained
         private int _bronanPunchAnimationColumn = 0;
         private float _smashingTime = 0f;
         private bool _hasShot = false;
-        private bool _shootingNewBarage = false;
 
         private void Awake()
         {
