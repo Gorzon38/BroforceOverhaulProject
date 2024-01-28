@@ -1,6 +1,6 @@
 # Brommando Trained
 
-Rework Brommando to be better.
+Rework of some aspect of Brommando.
 
 * Brand new sprites made by BruxelasCouveRocko (Big Thanks !)
 * The Special follow Brommando
