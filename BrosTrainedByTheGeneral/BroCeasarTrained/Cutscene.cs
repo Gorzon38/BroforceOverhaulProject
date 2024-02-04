@@ -60,6 +60,7 @@ namespace BroCeasarTrained
                 if (Cutscene.willLoadCutscene)
                 {
                     asset = Cutscene.broCaesar;
+                    willLoadCutscene = false;
                 }
             }
 
