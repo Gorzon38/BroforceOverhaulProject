@@ -1,8 +1,0 @@
-{
-  "Wearer": "BroCeasar",
-  "Name": "Bro Ceasar Trained",
-  "Clothes": {
-    "sprite": "BroCeasar_anim.png",
-    "player.hud.avatar": "avatar_BroCeasar.png"
-  }
-}
