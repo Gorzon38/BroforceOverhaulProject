@@ -15,5 +15,5 @@ using BroCeasarTrained;
 
 [assembly: Guid("6ae21d78-788a-4efe-a475-02d0a280e718")]
 
-[assembly: AssemblyVersion("1.0.0.0")]
-[assembly: AssemblyFileVersion("1.0.0.0")]
+[assembly: AssemblyVersion(Mod.VERSION)]
+[assembly: AssemblyFileVersion(Mod.VERSION)]

@@ -6,7 +6,7 @@ namespace BroCeasarTrained
     public class Mod : MonoBehaviour
     {
         public const string GUID = "com.gorzontrok.broceasartrained";
-        public const string VERSION = "1.0.0";
+        public const string VERSION = "1.0.1";
         public const string NAME = "BroCeasarTrained";
 
         public static bool CanUsePatch

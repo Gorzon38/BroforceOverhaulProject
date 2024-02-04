@@ -2,7 +2,7 @@
   "Id": "com.gorzontrok.broceasartrained",
   "DisplayName": "Bro Ceasar Trained",
   "Author": "Gorzontrok",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "Requirements": [ "RocketLib", "DresserMod" ],
   "LoadAfter": [ "RocketLib", "DresserMod" ],
   "AssemblyName": "BroCeasarTrained.dll",
